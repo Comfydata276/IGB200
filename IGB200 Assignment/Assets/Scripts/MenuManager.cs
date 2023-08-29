@@ -14,6 +14,8 @@ public class MenuManager : MonoBehaviour
     public int gameStartScene;
     public int mainMenuScene;
 
+    public bool mouseOff = true;
+
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -25,6 +27,34 @@ public class MenuManager : MonoBehaviour
             else
             {
                 PauseGame();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            // Get a reference to the script component attached to the game object
+            FirstPersonController script = targetGameObject.GetComponent<FirstPersonController>();
+            
+            if (mouseOff)
+            {
+                //free the cursor
+                Cursor.lockState = CursorLockMode.None;
+                //Show the cursor
+                Cursor.visible = true;
+
+                // Disable the script component
+                script.enabled = false;
+                mouseOff = false;
+            }
+            else
+            {
+                //Lock the cursor
+                Cursor.lockState = CursorLockMode.Locked;
+                // Hide the cursor
+                Cursor.visible = false;
+
+                // Disable the script component
+                script.enabled = true;
+                mouseOff = true;
             }
         }
     }

@@ -374,6 +374,7 @@
 "Assets/Assets/Standard Assets/Utility/CurveControlledBob.cs"
 "Assets/Assets/Standard Assets/Utility/FOVKick.cs"
 "Assets/Assets/Standard Assets/Utility/LerpControlledBob.cs"
+"Assets/Scripts/CameraMouseObjectDragger.cs"
 "Assets/Scripts/Charging.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/Interactor.cs"

@@ -1,0 +1,16 @@
+Controlls for first person: 
+W,A,S,D to move around 
+E to interact
+Escape to open the pause menu 
+
+Minigame controlls: 
+Hold left mouse to drag objects around the desk
+Left mouse to interact with buttons
+In cable mode left mouse on two objects will Add a cable connecting them useless there is already one present.
+In cable mode right mouse on two objects will remove the cable connecting them. 
+C can also be used to enter cable mode alongside the button. 
+
+
+Assets:
+Textures: https://assetstore.unity.com/packages/2d/textures-materials/my-real-materials-free-202253 
+Textures: https://assetstore.unity.com/packages/2d/textures-materials/free-stylized-textures-204742 

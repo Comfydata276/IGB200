@@ -12,7 +12,7 @@ public class Minigame : MonoBehaviour, IInteractable
     // Start is called before the first frame update
     void Start()
     {
-        
+        game.SetActive(false);
     }
 
     // Update is called once per frame
@@ -28,7 +28,7 @@ public class Minigame : MonoBehaviour, IInteractable
         interactionText.SetActive(false);
 
         //free the cursor
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Confined;
         //Show the cursor
         Cursor.visible = true;
 

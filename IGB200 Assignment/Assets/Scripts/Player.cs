@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     public float charge = 0;
-    private float maxCharge = 100;
+    //private float maxCharge = 100;
     public GameObject shock;
 
     void Start()

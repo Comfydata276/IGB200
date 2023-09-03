@@ -9,7 +9,7 @@ public class Minigame : MonoBehaviour, IInteractable
     public GameObject interactionText;
     public GameObject UI;
     public GameObject MinigameUI;
-
+    public Charging Charging;
 
     // Start is called before the first frame update
     void Start()
@@ -35,5 +35,22 @@ public class Minigame : MonoBehaviour, IInteractable
         Cursor.lockState = CursorLockMode.Confined;
         //Show the cursor
         Cursor.visible = true;
+    }
+
+    public void Victory()
+    {
+        game.SetActive(false);
+        world.SetActive(true);
+        interactionText.SetActive(true);
+        UI.SetActive(true);
+        MinigameUI.SetActive(false);
+
+        //Lock the cursor
+        Cursor.lockState = CursorLockMode.Locked;
+        //Hide the cursor
+        Cursor.visible = false;
+
+        Charging.AddCharge(33);
+
     }
 }

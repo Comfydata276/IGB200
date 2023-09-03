@@ -7,6 +7,8 @@ public class Minigame : MonoBehaviour, IInteractable
     public GameObject game;
     public GameObject world;
     public GameObject interactionText;
+    public GameObject UI;
+    public GameObject MinigameUI;
 
 
     // Start is called before the first frame update
@@ -26,12 +28,12 @@ public class Minigame : MonoBehaviour, IInteractable
         game.SetActive(true);
         world.SetActive(false);
         interactionText.SetActive(false);
+        UI.SetActive(false);
+        MinigameUI.SetActive(true);
 
         //free the cursor
         Cursor.lockState = CursorLockMode.Confined;
         //Show the cursor
         Cursor.visible = true;
-
-
     }
 }

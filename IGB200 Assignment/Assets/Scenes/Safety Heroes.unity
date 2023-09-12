@@ -48412,8 +48412,8 @@ MonoBehaviour:
   game: {fileID: 848988930}
   world: {fileID: 1290070848}
   interactionText: {fileID: 42651362}
-  UI: {fileID: 0}
-  MinigameUI: {fileID: 0}
+  UI: {fileID: 512480938}
+  MinigameUI: {fileID: 1758189908}
   Charging: {fileID: 1242486237}
 --- !u!65 &1574484254
 BoxCollider:

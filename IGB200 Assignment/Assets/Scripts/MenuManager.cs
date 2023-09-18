@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
     public GameObject pauseMenu;
     public bool isPaused;
     public GameObject targetGameObject;
+    public GameObject minigame;
 
     public int gameStartScene;
     public int mainMenuScene;
@@ -104,9 +105,23 @@ public class MenuManager : MonoBehaviour
         isPaused = false;
 
         //Lock the cursor
-        Cursor.lockState = CursorLockMode.Locked;
+        if (minigame.activeSelf)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         // Hide the cursor
-        Cursor.visible = false;
+        if (minigame.activeSelf)
+        {
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.visible = false;
+        }
 
         // Get a reference to the script component attached to the game object
         FirstPersonController script = targetGameObject.GetComponent<FirstPersonController>();

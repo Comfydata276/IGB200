@@ -8,6 +8,7 @@ public class CircuitBreaker : MonoBehaviour, IInteractable
     public GameObject finalMinigame;  // Reference to the final minigame
     public TextMeshProUGUI messageText;  // Reference to TextMeshProUGUI to display messages
     public bool textactive = false;  // Boolean to toggle message text
+    public GameObject topMinigame;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class CircuitBreaker : MonoBehaviour, IInteractable
     {
         if (chargingSystem.charge >= 99)
         {
+            topMinigame.SetActive(true);
             // Launch the final minigame
             finalMinigame.SetActive(true);
 

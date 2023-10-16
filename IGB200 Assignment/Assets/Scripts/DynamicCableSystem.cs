@@ -86,48 +86,57 @@ public class DynamicCableSystem : MonoBehaviour
 
         if (cableMode)
         {
-            if (Input.GetMouseButtonDown(0))
+            if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && minigame1.isPoweron == false)
             {
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
+                if (Input.GetMouseButtonDown(0)) // Left click
                 {
-                    Debug.Log("Object detected: " + hit.collider.gameObject.name);
-
-                    if (firstObject == null)
+                    Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
                     {
-                        firstObject = hit.collider.gameObject;
-                    }
-                    else
-                    {
-                        secondObject = hit.collider.gameObject;
-                        CreateCable(firstObject, secondObject, false);
+                        Debug.Log("Object detected: " + hit.collider.gameObject.name);
 
-                        firstObject = null;
-                        secondObject = null;
+                        if (firstObject == null)
+                        {
+                            firstObject = hit.collider.gameObject;
+                        }
+                        else
+                        {
+                            secondObject = hit.collider.gameObject;
+                            CreateCable(firstObject, secondObject, false);
+
+                            firstObject = null;
+                            secondObject = null;
+                        }
                     }
                 }
-            }
-            else if (Input.GetMouseButtonDown(1))  // Right click
-            {
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
+                else if (Input.GetMouseButtonDown(1))  // Right click
                 {
-                    Debug.Log("Right-clicked on: " + hit.collider.gameObject.name);
+                    Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
+                    {
+                        Debug.Log("Right-clicked on: " + hit.collider.gameObject.name);
 
-                    if (firstObject == null)
-                    {
-                        firstObject = hit.collider.gameObject;
-                    }
-                    else
-                    {
-                        secondObject = hit.collider.gameObject;
-                        RemoveSpecificCable(firstObject, secondObject);
-                        firstObject = null;
-                        secondObject = null;
+                        if (firstObject == null)
+                        {
+                            firstObject = hit.collider.gameObject;
+                        }
+                        else
+                        {
+                            secondObject = hit.collider.gameObject;
+                            RemoveSpecificCable(firstObject, secondObject);
+                            firstObject = null;
+                            secondObject = null;
+                        }
                     }
                 }
+            }   else
+            {
+                Debug.Log("Power detected! Triggering lose condition.");
+                minigame1.LoseGame("The power is still on! Please dont forget to disable it!");  // Trigger the lose condition
+                hazardDetected = true;  // Set flag to true
+                break;  // No need to check further
             }
         }
     }

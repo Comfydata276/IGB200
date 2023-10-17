@@ -10,6 +10,7 @@ public class DragObject : MonoBehaviour
     private Quaternion originalRotation;  // Store the original rotation
 
     public TextMeshProUGUI displayText;  // Reference to the TextMeshProUGUI component
+    public DynamicCableSystem dynamicCableSystem;
 
     void OnMouseDown()
     {

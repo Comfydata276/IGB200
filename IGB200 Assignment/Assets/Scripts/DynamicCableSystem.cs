@@ -31,12 +31,40 @@ public class DynamicCableSystem : MonoBehaviour
     // Added a bool to the tuple to store if the cable is faulty
     public List<Tuple<GameObject, GameObject, LineRenderer, bool>> connections = new List<Tuple<GameObject, GameObject, LineRenderer, bool>>();
 
+    // Union-Find data structure
+    Dictionary<GameObject, GameObject> parent = new Dictionary<GameObject, GameObject>();
+
+    // Find operation for Union-Find
+    GameObject Find(GameObject u)
+    {
+        if (u == parent[u])
+        {
+            return u;
+        }
+        else
+        {
+            parent[u] = Find(parent[u]); // Path compression
+            return parent[u];
+        }
+    }
+
+    // Union operation for Union-Find
+    void Union(GameObject u, GameObject v)
+    {
+        u = Find(u);
+        v = Find(v);
+        if (u != v)
+        {
+            parent[v] = u; // Merge sets
+        }
+    }
+
     public void ToggleCableMode()
     {
         cableMode = !cableMode;
         Debug.Log("Cable mode: " + cableMode);
 
-        if (cableMode) // Replace with your actual condition
+        if (cableMode)
         {
             cableModeText.text = "Cable Mode On";
             cableModeText.color = Color.green;
@@ -50,13 +78,20 @@ public class DynamicCableSystem : MonoBehaviour
 
     void Start()
     {
+        // Initialize Union-Find
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Circuit"))
+        {
+            parent[go] = go; // Each node is its own parent initially
+        }
+
         foreach (CableConnection connection in initialCables)
         {
             CreateCable(connection.startPoint, connection.endPoint, connection.isFaulty);
         }
-        cableModeText.text = "Cable Mode Off";  // Assume initially off
+        cableModeText.text = "Cable Mode Off";
         cableModeText.color = Color.red;
     }
+
 
     void Update()
     {
@@ -92,6 +127,13 @@ public class DynamicCableSystem : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
                 {
+                    // Check if the object is tagged as 'hazard'
+                    if (hit.collider.gameObject.CompareTag("hazard"))
+                    {
+                        Debug.Log("Cannot attach cable to hazard: " + hit.collider.gameObject.name);
+                        return;
+                    }
+
                     Debug.Log("Object detected: " + hit.collider.gameObject.name);
 
                     if (firstObject == null)
@@ -130,9 +172,38 @@ public class DynamicCableSystem : MonoBehaviour
             }
         }
     }
+
+
     public void CheckForHazard()
     {
-        bool hazardDetected = false;  // flag to track if hazard is found
+        bool hazardDetected = false;
+        HashSet<GameObject> visited = new HashSet<GameObject>();
+        Dictionary<GameObject, int> connectionCount = new Dictionary<GameObject, int>();
+
+        // Populate connectionCount with all GameObjects tagged as "Circuit"
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Circuit"))
+        {
+            connectionCount[go] = 0;
+        }
+
+        // Count the number of connections for each object in the circuit
+        foreach (var tuple in connections)
+        {
+            if (tuple.Item1.CompareTag("Circuit")) connectionCount[tuple.Item1]++;
+            if (tuple.Item2.CompareTag("Circuit")) connectionCount[tuple.Item2]++;
+        }
+
+        // Check if all components have exactly two connections
+        foreach (var count in connectionCount.Values)
+        {
+            if (count != 2)
+            {
+                Debug.Log("Incomplete circuit! All components must have exactly two connections.");
+                minigame1.LoseGame("Incomplete circuit!");
+                return;
+            }
+        }
+
 
         foreach (var tuple in connections)
         {
@@ -167,6 +238,27 @@ public class DynamicCableSystem : MonoBehaviour
             minigame.Victory();
         }
     }
+
+
+    private void DFS(GameObject current, HashSet<GameObject> visited)
+    {
+        if (current == null || visited.Contains(current)) return;
+
+        visited.Add(current);
+
+        foreach (var tuple in connections)
+        {
+            if (tuple.Item1 == current)
+            {
+                DFS(tuple.Item2, visited);
+            }
+            else if (tuple.Item2 == current)
+            {
+                DFS(tuple.Item1, visited);
+            }
+        }
+    }
+
 
     public void CreateCable(GameObject start, GameObject end, bool isFaulty)
     {

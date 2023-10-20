@@ -1,19 +1,17 @@
 using UnityEngine;
-using TMPro;  // Namespace for TextMeshPro
-using UnityEngine.UI;  // Namespace for Unity's UI
+using TMPro;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class Minigame1 : MonoBehaviour
 {
-    public TextMeshProUGUI powerStatusText;  // Reference to the TextMeshProUGUI element
-    public RawImage loseImage;  // Reference to the Image UI element for the loss screen
-    public Button resetButton;  // Reference to the reset button
-    public TextMeshProUGUI loseText;  // Text that shows the error message
-    public bool isPowerOn = true;  // Power status, true by default
+    public TextMeshProUGUI powerStatusText;
+    public RawImage loseImage;
+    public Button resetButton;
+    public TextMeshProUGUI loseText;
+    public bool isPowerOn = true;
     public DynamicCableSystem dynamicCableSystem;
 
-
-    // To store original positions of the circuit components
     private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>();
 
     void Start()
@@ -31,7 +29,7 @@ public class Minigame1 : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -67,7 +65,7 @@ public class Minigame1 : MonoBehaviour
         loseImage.enabled = true;
         loseText.enabled = true;
         resetButton.gameObject.SetActive(true);
-        loseText.text = $"A critical error was detecked with your circuit! \nDetailed: {reason}\nClick Reset to try again.";
+        loseText.text = $"A critical error was detected with your circuit! \nDetailed: {reason}\nClick Reset to try again.";
     }
 
     public void ResetGame()
@@ -80,20 +78,27 @@ public class Minigame1 : MonoBehaviour
         {
             entry.Key.transform.position = entry.Value;
         }
-        // Destroy all current cables and clear the connections list
+
         foreach (var tuple in dynamicCableSystem.connections)
         {
-            if (tuple.Item3 != null) // The LineRenderer component of the tuple
+            if (tuple.Item3 != null)
             {
                 Destroy(tuple.Item3.gameObject);
             }
         }
         dynamicCableSystem.connections.Clear();
 
-        // Recreate the initial set of cables
         foreach (DynamicCableSystem.CableConnection connection in dynamicCableSystem.initialCables)
         {
             dynamicCableSystem.CreateCable(connection.startPoint, connection.endPoint, connection.isFaulty);
         }
+
+        // Set power to on by default
+        isPowerOn = true;
+        UpdatePowerStatus();
+
+        // Toggle off the cable mode
+        dynamicCableSystem.cableMode = true;
+        dynamicCableSystem.ToggleCableMode();
     }
 }

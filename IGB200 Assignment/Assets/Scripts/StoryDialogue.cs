@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StoryDialogue : MonoBehaviour, IInteractable
@@ -7,6 +5,7 @@ public class StoryDialogue : MonoBehaviour, IInteractable
     public GameObject textbox;
     public bool textactive = false;
     public GameObject UI;
+
     public void Interact()
     {
         if (!textactive)
@@ -14,7 +13,6 @@ public class StoryDialogue : MonoBehaviour, IInteractable
             textbox.SetActive(true);
             textactive = true;
             UI.SetActive(false);
-
         }
         else
         {
@@ -22,5 +20,13 @@ public class StoryDialogue : MonoBehaviour, IInteractable
             textactive = false;
             UI.SetActive(true);
         }
+    }
+
+    public void Deactivate()
+    {
+        // Deactivation logic, similar to turning off the text box and enabling the UI
+        textbox.SetActive(false);
+        textactive = false;
+        UI.SetActive(true);
     }
 }

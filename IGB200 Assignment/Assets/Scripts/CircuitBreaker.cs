@@ -1,19 +1,17 @@
 using UnityEngine;
-using UnityEngine.UI;  // For Text UI
-using TMPro;  // For TextMeshPro
+using UnityEngine.UI;
+using TMPro;
 
 public class CircuitBreaker : MonoBehaviour, IInteractable
 {
-    public Charging chargingSystem;  // Reference to the Charging script
-    public GameObject finalMinigame;  // Reference to the final minigame
-    public TextMeshProUGUI messageText;  // Reference to TextMeshProUGUI to display messages
-    public bool textactive = false;  // Boolean to toggle message text
+    public Charging chargingSystem;
+    public GameObject finalMinigame;
+    public TextMeshProUGUI messageText;
+    public bool textactive = false;
     public GameObject topMinigame;
 
-    // Start is called before the first frame update
     void Start()
     {
-        // Optionally initialize UI elements here
         messageText.enabled = false;
     }
 
@@ -22,16 +20,12 @@ public class CircuitBreaker : MonoBehaviour, IInteractable
         if (chargingSystem.charge >= 99)
         {
             topMinigame.SetActive(true);
-            // Launch the final minigame
             finalMinigame.SetActive(true);
-
-            // Reset the message and textactive state
             messageText.enabled = false;
             textactive = false;
         }
         else
         {
-            // Toggle the message display based on textactive state
             textactive = !textactive;
             messageText.enabled = textactive;
 
@@ -40,5 +34,15 @@ public class CircuitBreaker : MonoBehaviour, IInteractable
                 messageText.text = "You must complete additional objectives before you may attempt this minigame";
             }
         }
+    }
+
+    public void Deactivate()
+    {
+        // Add your deactivation logic here
+        // For example, you might want to hide the message text and deactivate the final mini-game:
+        messageText.enabled = false;
+        textactive = false;
+        topMinigame.SetActive(false);
+        finalMinigame.SetActive(false);
     }
 }

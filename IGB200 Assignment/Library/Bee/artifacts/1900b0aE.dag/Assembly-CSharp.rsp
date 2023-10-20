@@ -381,6 +381,7 @@
 "Assets/Scripts/DynamicCableSystem.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/Interactor.cs"
+"Assets/Scripts/Lights.cs"
 "Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/MenuManager.cs"
 "Assets/Scripts/Minigame.cs"

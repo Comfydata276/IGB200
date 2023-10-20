@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -10,11 +9,6 @@ public class Dialogue : MonoBehaviour
     public float textSpeed;
 
     private int index;
-    void Start()
-    {
-        textComponent.text = string.Empty;
-        StartDialogue();
-    }
 
     // Update is called once per frame
     void Update()
@@ -33,14 +27,17 @@ public class Dialogue : MonoBehaviour
         }
     }
 
-    void StartDialogue()
+    void OnEnable()
     {
+        // Reset the dialogue index and clear the text each time the dialogue box is opened
         index = 0;
+        textComponent.text = string.Empty;
         StartCoroutine(TypeLine());
     }
 
     IEnumerator TypeLine()
     {
+        textComponent.text = "";
         foreach (char c in lines[index].ToCharArray())
         {
             textComponent.text += c;

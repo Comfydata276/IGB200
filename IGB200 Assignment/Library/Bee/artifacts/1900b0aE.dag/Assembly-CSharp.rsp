@@ -384,6 +384,7 @@
 "Assets/Scripts/Lights.cs"
 "Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/MenuManager.cs"
+"Assets/Scripts/message.cs"
 "Assets/Scripts/Minigame.cs"
 "Assets/Scripts/Minigame1.cs"
 "Assets/Scripts/Player.cs"

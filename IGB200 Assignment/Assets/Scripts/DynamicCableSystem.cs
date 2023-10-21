@@ -131,6 +131,11 @@ public class DynamicCableSystem : MonoBehaviour
                     if (hit.collider.gameObject.CompareTag("hazard"))
                     {
                         Debug.Log("Cannot attach cable to hazard: " + hit.collider.gameObject.name);
+                        //game over if player touches a hazard when power is on
+                        if (minigame1.isPowerOn)
+                        {
+                            minigame1.LoseGame("Power Hazard!");
+                        }
                         return;
                     }
 
@@ -142,6 +147,11 @@ public class DynamicCableSystem : MonoBehaviour
                     }
                     else
                     {
+                        //game over if player connnects a wire when power is on
+                        if (minigame1.isPowerOn)
+                        {
+                            minigame1.LoseGame("Power Hazard!");
+                        }
                         secondObject = hit.collider.gameObject;
                         CreateCable(firstObject, secondObject, false);
                         firstObject = null;
@@ -163,6 +173,11 @@ public class DynamicCableSystem : MonoBehaviour
                     }
                     else
                     {
+                        //game over if player disconnnects a wire when power is on
+                        if (minigame1.isPowerOn)
+                        {
+                            minigame1.LoseGame("Power Hazard!");
+                        }
                         secondObject = hit.collider.gameObject;
                         RemoveSpecificCable(firstObject, secondObject);
                         firstObject = null;

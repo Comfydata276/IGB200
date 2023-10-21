@@ -14,6 +14,7 @@ public class MenuManager : MonoBehaviour
 
     public int gameStartScene;
     public int mainMenuScene;
+    public int tutorialLevel;
 
     public bool mouseOff = true;
 
@@ -129,5 +130,12 @@ public class MenuManager : MonoBehaviour
         script.enabled = true;
 
         //crosshair.SetActive(true);
+    }
+
+    public void openTutorialLevel()
+    {
+        SceneManager.LoadScene(tutorialLevel);
+        Time.timeScale = 1.0f;
+        isPaused = false;
     }
 }

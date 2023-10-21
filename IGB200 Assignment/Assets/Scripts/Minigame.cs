@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Minigame : MonoBehaviour, IInteractable
 {
@@ -74,5 +75,10 @@ public class Minigame : MonoBehaviour, IInteractable
         Cursor.visible = false;
 
         Charging.AddCharge(33);
+
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 }

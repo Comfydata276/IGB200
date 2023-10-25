@@ -12,6 +12,8 @@ public class DynamicCableSystem : MonoBehaviour
     public LayerMask clickableLayer;
     public Minigame1 minigame1;
     public Minigame minigame;
+    public Charging charging;
+    public CircuitBreaker circuitBreaker;
 
     [Serializable]
     public class CableConnection
@@ -78,6 +80,8 @@ public class DynamicCableSystem : MonoBehaviour
 
     void Start()
     {
+        DeleteAllCables();
+
         // Initialize Union-Find
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("Circuit"))
         {
@@ -92,6 +96,16 @@ public class DynamicCableSystem : MonoBehaviour
         cableModeText.color = Color.red;
     }
 
+    public void DeleteAllCables()
+    {
+        // Iterate over each cable connection and destroy its associated GameObject
+        foreach (var tuple in connections)
+        {
+            Destroy(tuple.Item3.gameObject);  // Destroy the LineRenderer's GameObject
+        }
+        // Clear the connections list
+        connections.Clear();
+    }
 
     void Update()
     {
@@ -191,6 +205,9 @@ public class DynamicCableSystem : MonoBehaviour
 
     public void CheckForHazard()
     {
+        // First, check for incomplete circuit
+        CheckForIncompleteCircuit();
+
         bool hazardDetected = false;
         HashSet<GameObject> visited = new HashSet<GameObject>();
         Dictionary<GameObject, int> connectionCount = new Dictionary<GameObject, int>();
@@ -211,7 +228,7 @@ public class DynamicCableSystem : MonoBehaviour
         // Check if all components have exactly two connections
         foreach (var count in connectionCount.Values)
         {
-            if (count != 2)
+            if (count < 2)
             {
                 Debug.Log("Incomplete circuit! All components must have exactly two connections.");
                 minigame1.LoseGame("Incomplete circuit!");
@@ -247,9 +264,12 @@ public class DynamicCableSystem : MonoBehaviour
         }
 
         // If no hazard is detected, call the Victory method
-        if (!hazardDetected)
+        if (!hazardDetected && charging.charge >= 99)
         {
             // Assuming minigameInstance is a reference to an instance of the Minigame class
+            circuitBreaker.Victory();
+        } else if (!hazardDetected )
+        {
             minigame.Victory();
         }
     }
@@ -324,4 +344,44 @@ public class DynamicCableSystem : MonoBehaviour
         }
         return false;
     }
+
+    public void CheckForIncompleteCircuit()
+    {
+        // 1. Use DFS to traverse the circuit and identify all visited components
+        HashSet<GameObject> visited = new HashSet<GameObject>();
+        if (connections.Count > 0) // Ensure there's at least one connection to start DFS
+        {
+            DFS(connections[0].Item1, visited);
+        }
+
+        // 2. Check if all components have at least two connections
+        Dictionary<GameObject, int> connectionCount = new Dictionary<GameObject, int>();
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Circuit"))
+        {
+            connectionCount[go] = 0;
+        }
+        foreach (var tuple in connections)
+        {
+            if (tuple.Item1.CompareTag("Circuit")) connectionCount[tuple.Item1]++;
+            if (tuple.Item2.CompareTag("Circuit")) connectionCount[tuple.Item2]++;
+        }
+        foreach (var kvp in connectionCount)
+        {
+            if (kvp.Value < 2)
+            {
+                Debug.Log($"Incomplete circuit! Component '{kvp.Key.name}' has only {kvp.Value} connection(s). It should have at least 2 connections.");
+            }
+        }
+
+        // 3. Compare the visited set with all components
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Circuit"))
+        {
+            if (!visited.Contains(go))
+            {
+                Debug.Log($"Component '{go.name}' is not connected to the main circuit.");
+            }
+        }
+    }
+
+
 }

@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Minigame : MonoBehaviour, IInteractable
 {
-    public GameObject topGame;
     public GameObject game;
     public GameObject world;
     public GameObject interactionText;
@@ -13,11 +12,11 @@ public class Minigame : MonoBehaviour, IInteractable
     public GameObject MinigameUI;
     public Charging Charging;
     public Minigame1 minigame1;
+    public GameObject Launcher;
 
     // Start is called before the first frame update
     void Start()
     {
-        topGame.SetActive(false);
         game.SetActive(false);
         minigame1.ResetGame();  // Reset the game state
     }
@@ -30,12 +29,12 @@ public class Minigame : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        topGame.SetActive(true);
         game.SetActive(true);
-        world.SetActive(false);
         interactionText.SetActive(false);
         UI.SetActive(false);
         MinigameUI.SetActive(true);
+        Launcher.SetActive(false);
+        world.SetActive(false);
 
         // Free the cursor
         Cursor.lockState = CursorLockMode.Confined;
@@ -45,9 +44,6 @@ public class Minigame : MonoBehaviour, IInteractable
 
     public void Deactivate()
     {
-        // Add your deactivation logic here.
-        // For example, you can reverse the actions taken in Interact()
-        topGame.SetActive(false);
         game.SetActive(false);
         world.SetActive(true);
         interactionText.SetActive(true);
@@ -62,7 +58,6 @@ public class Minigame : MonoBehaviour, IInteractable
 
     public void Victory()
     {
-        topGame.SetActive(false);
         game.SetActive(false);
         world.SetActive(true);
         interactionText.SetActive(true);

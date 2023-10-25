@@ -11,6 +11,7 @@ public class MenuManager : MonoBehaviour
     public bool isPaused;
     public GameObject targetGameObject;
     public GameObject minigame;
+    public GameObject quit;
 
     public int gameStartScene;
     public int mainMenuScene;
@@ -78,6 +79,7 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1.0f;
         isPaused = false;
+
     }
 
     public void PauseGame()
@@ -104,6 +106,7 @@ public class MenuManager : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1.0f;
         isPaused = false;
+        quit.SetActive(false);
 
         //Lock the cursor
         if (minigame.activeSelf)

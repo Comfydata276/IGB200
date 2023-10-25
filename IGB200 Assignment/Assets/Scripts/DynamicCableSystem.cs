@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DynamicCableSystem : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DynamicCableSystem : MonoBehaviour
     public Minigame minigame;
     public Charging charging;
     public CircuitBreaker circuitBreaker;
+    private GameObject outlinedObject = null; // The currently outlined object
 
     [Serializable]
     public class CableConnection
@@ -137,6 +139,7 @@ public class DynamicCableSystem : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0)) // Left click
             {
+
                 Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
@@ -179,6 +182,7 @@ public class DynamicCableSystem : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickableLayer))
                 {
+
                     Debug.Log("Right-clicked on: " + hit.collider.gameObject.name);
 
                     if (firstObject == null)
@@ -205,38 +209,31 @@ public class DynamicCableSystem : MonoBehaviour
 
     public void CheckForHazard()
     {
-        // First, check for incomplete circuit
-        CheckForIncompleteCircuit();
-
         bool hazardDetected = false;
-        HashSet<GameObject> visited = new HashSet<GameObject>();
-        Dictionary<GameObject, int> connectionCount = new Dictionary<GameObject, int>();
 
-        // Populate connectionCount with all GameObjects tagged as "Circuit"
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Circuit"))
-        {
-            connectionCount[go] = 0;
-        }
+        // Create a HashSet to store all objects connected by wires
+        HashSet<GameObject> connectedObjects = new HashSet<GameObject>();
 
-        // Count the number of connections for each object in the circuit
+        // Populate the HashSet with objects connected by the wires
         foreach (var tuple in connections)
         {
-            if (tuple.Item1.CompareTag("Circuit")) connectionCount[tuple.Item1]++;
-            if (tuple.Item2.CompareTag("Circuit")) connectionCount[tuple.Item2]++;
+            connectedObjects.Add(tuple.Item1);
+            connectedObjects.Add(tuple.Item2);
         }
 
-        // Check if all components have exactly two connections
-        foreach (var count in connectionCount.Values)
+        // Check for objects with the "hazard" tag among the connected objects
+        foreach (GameObject obj in connectedObjects)
         {
-            if (count < 2)
+            if (obj.CompareTag("hazard"))
             {
-                Debug.Log("Incomplete circuit! All components must have exactly two connections.");
-                minigame1.LoseGame("Incomplete circuit!");
-                return;
+                Debug.Log("Hazard detected! Triggering lose condition.");
+                minigame1.LoseGame("Hazard Detected in Circuit!");  // Trigger the lose condition
+                hazardDetected = true;  // Set flag to true
+                break;  // No need to check further
             }
         }
 
-
+        // Existing code for checking faulty cables, raycasting, etc.
         foreach (var tuple in connections)
         {
             RaycastHit hit;
@@ -263,16 +260,20 @@ public class DynamicCableSystem : MonoBehaviour
             }
         }
 
+        CheckForIncompleteCircuit();
+
         // If no hazard is detected, call the Victory method
         if (!hazardDetected && charging.charge >= 99)
         {
             // Assuming minigameInstance is a reference to an instance of the Minigame class
             circuitBreaker.Victory();
-        } else if (!hazardDetected )
+        }
+        else if (!hazardDetected)
         {
             minigame.Victory();
         }
     }
+
 
 
     private void DFS(GameObject current, HashSet<GameObject> visited)
@@ -382,6 +383,5 @@ public class DynamicCableSystem : MonoBehaviour
             }
         }
     }
-
 
 }

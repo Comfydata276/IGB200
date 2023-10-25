@@ -379,6 +379,7 @@
 "Assets/Scripts/CircuitBreaker.cs"
 "Assets/Scripts/Dialogue.cs"
 "Assets/Scripts/Door.cs"
+"Assets/Scripts/DragDrop.cs"
 "Assets/Scripts/DynamicCableSystem.cs"
 "Assets/Scripts/FlickerLight.cs"
 "Assets/Scripts/GameManager.cs"

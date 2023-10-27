@@ -2611,7 +2611,7 @@ MonoBehaviour:
     m_Bits: 1
   minigame1: {fileID: 1120849235}
   minigame: {fileID: 1533969753}
-  charging: {fileID: 0}
+  charging: {fileID: 1242486237}
   circuitBreaker: {fileID: 0}
   initialCables:
   - startPoint: {fileID: 1286028324}
@@ -5165,7 +5165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &409620010
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5504,7 +5504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charge: 0
-  shock: {fileID: 0}
+  shock: {fileID: 640308653}
 --- !u!1 &461925000
 GameObject:
   m_ObjectHideFlags: 0
@@ -10875,6 +10875,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1120849234}
   - component: {fileID: 1120849235}
+  - component: {fileID: 1120849236}
   m_Layer: 0
   m_Name: Minigame 2
   m_TagString: Untagged
@@ -10917,6 +10918,21 @@ MonoBehaviour:
   loseText: {fileID: 493808190}
   isPowerOn: 1
   dynamicCableSystem: {fileID: 218036786}
+--- !u!114 &1120849236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120849233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d961ed8d1692ed24e801ebfd298c413b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textbox: {fileID: 871224355}
+  textactive: 0
+  UI: {fileID: 512480938}
 --- !u!1 &1133371161
 GameObject:
   m_ObjectHideFlags: 0
@@ -16468,14 +16484,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1472459508}
-  - component: {fileID: 1472459509}
   m_Layer: 0
   m_Name: Minigames
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1472459508
 Transform:
   m_ObjectHideFlags: 0
@@ -16492,21 +16507,6 @@ Transform:
   - {fileID: 1120849234}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1472459509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472459507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d961ed8d1692ed24e801ebfd298c413b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textbox: {fileID: 871224355}
-  textactive: 0
-  UI: {fileID: 512480938}
 --- !u!1 &1506612587
 GameObject:
   m_ObjectHideFlags: 0
@@ -17051,8 +17051,8 @@ MonoBehaviour:
   UI: {fileID: 512480938}
   MinigameUI: {fileID: 397555744}
   Charging: {fileID: 1242486237}
-  minigame1: {fileID: 0}
-  Launcher: {fileID: 0}
+  minigame1: {fileID: 1120849235}
+  Launcher: {fileID: 1533969751}
 --- !u!65 &1533969754
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29367,7 +29367,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1472459509}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: message, Assembly-CSharp
         m_MethodName: messageOpen
         m_Mode: 1
